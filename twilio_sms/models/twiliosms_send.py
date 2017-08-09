@@ -49,25 +49,18 @@ class TwilioBase(models.Model):
             raise Warning("Message part is empty")
         else:
             try:
-#                 self.date_time = lambda *a:datetime.now()
-                print self.date_time
                 client.messages.create(from_=self.from_, to=self.to, body=self.body)
                 self.display_all = "Sender Number  " + str(self.from_) + "  Receiver Number " + str(self.to) \
                 + "Message Content -> " + str(self.body) + "  at " + str(self.date_time)
                 msg_status = str("Message Sent")
                 self.msg_status = msg_status
-                print "here"
-#                 self.date_time = lambda *a:datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-#                 print self.date_time
 
             except TwilioRestException as e:
                 print(e)
                 domain=[('contact_name_contactclass', '=', self.contact_name_contactclass)]
                 res = self.env['contact.twiliocontact_base'].search(domain)
-                print res.contact_name_contactclass
                 count_domain = [('contact_name_contactclass', '=', self.contact_name_contactclass)]
                 rec = self.env['contact.twiliocontact_base'].search_count(count_domain)
-                print rec
                 raise Warning("This is not a registered Number, plz verify (OR) register")
         return
 
@@ -80,7 +73,6 @@ class TwilioBase(models.Model):
         else:
             try:
                 client.calls.create(url="http://demo.twilio.com/docs/voice.xml", to=self.to, from_=self.from_)
-                print "here"
             except TwilioRestException as e:
                 print(e)
                 raise Warning("This is not a registered Number, plz verify OR register")
