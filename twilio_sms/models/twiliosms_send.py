@@ -30,7 +30,7 @@ class TwilioBase(models.Model):
     _defaults = {
               'date_time': lambda *a:datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
               }
-    from_ = fields.Char(string="Your Number", default='YOUR TWILIO NUMBER here', readonly=True, required=True)
+    from_ = fields.Char(string="Your Number", default='YOUR TWILIO NUMBER here', required=True)
     contact_name = fields.Many2one('contact.twiliocontact_base', string="Contact Name", required=True)
     body = fields.Char(string="Message", size=160)
     display_all = fields.Text(string="Sender,Receiver,Message", readonly=True)
