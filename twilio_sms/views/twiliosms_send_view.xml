@@ -20,7 +20,7 @@
               </button>
         </header>
         <sheet>
-        <group string="Send SMS" style="width: 40%%" col="4"
+        <group string="Send SMS" style="width: 40%%" col="2"
         colspan="2">
             <field name="from_" />
             <field name="to" />
