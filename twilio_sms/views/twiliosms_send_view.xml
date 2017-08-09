@@ -1,0 +1,125 @@
+
+<odoo>
+    <record model="ir.ui.view" id="twiliosms_form">
+        <field name="name">twiliosmstree</field>
+        <field name="model">twiliosms.base</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+        <form string="twiliosms">
+        <header>
+              <button name="sendsms" type="object" String="send SMS"
+                class="oe_highlight" icon="fa-commenting-o" confirm="Are you sure want to send sms"
+                attrs="{'invisible':[('display_all','!=',False)]}"
+                help="this button will send an sms " />
+              <button name="callnumber" type="object" String="Call Alert "
+                 class="oe_highlight" icon="fa-tty" confirm="Are you sure want to Call Alert"
+                 help="This button alerts this contact number"/>
+              <button name="Message_status" type="action" class="oe_highlight oe_stat_button" icon="fa-bullhorn"
+                 attrs="{'invisible':[('display_all','=',False)]}">
+                 <field name="msg_status" widget="statinfo"/>
+              </button>
+        </header>
+        <sheet>
+        <group string="Send SMS" style="width: 40%%" col="4"
+        colspan="2">
+            <field name="from_" />
+            <field name="to" />
+            <field name="contact_name" />
+            <field name="image" widget="image" />
+            <field name="body" />
+            <field name="date_time" />
+            <field name="display_all" placeholder="Viola!!!" />
+            <field name="msg_status" />
+        </group>
+        </sheet>
+        </form>
+        </field>
+  </record>
+
+  <record model="ir.ui.view" id="twiliosms_tree">
+        <field name="name">twiliosmstree</field>
+        <field name="model">twiliosms.base</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+        <tree string="twiliosmstree">
+           <field name="from_" />
+           <field name="to" />
+           <field name="contact_name" />
+           <field name="date_time" />
+           <field name="msg_status"/>
+        </tree>
+        </field>
+  </record>
+
+
+  <record model="ir.ui.view" id="My_kanban_Twilio_sms">
+        <field name="name">Kanban</field>
+        <field name="model">twiliosms.base</field>
+        <field name="arch" type="xml">
+            <kanban default_order="date_time">
+                <field name="contact_name"/>
+                <field name="from_" />
+                <field name="to" />
+                <field name="image"/>
+                <field name="msg_status"/>
+                <field name="date_time"/>
+
+                <!-- <field name="name"/> <field name="code"/> <field name="lst_price"/> -->
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_vignette oe_semantic_html_override">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <a type="open">
+                                            <li>
+                                                Contact Name:
+                                                <strong>
+                                                    <field name="contact_name" />
+                                                </strong>
+                                            </li>
+                                            <img height="80" width="90"
+                                                t-att-src="kanban_image('twiliosms.base', 'image', record.id.value)"
+                                                class="oe_kanban_image" />
+                                                <li>
+                                                    From:
+                                                    <strong>    <field name="from_" style="background-color: #FF8C00;" /></strong>
+                                                </li>
+                                                <li>
+                                                    To:
+                                                    <strong>    <field name="to" style="background-color: #FF8C00;" /></strong>
+                                                </li>
+                                                <li>
+                                                    Status
+                                                    <strong>    <field name="msg_status" style="background-color: #FF0000;" /></strong>
+                                                </li>
+                                                <li>
+                                                    Date Time
+                                                    <strong>    <field name="date_time" style="background-color: #000000;" /></strong>
+                                                </li>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+
+  <record model="ir.actions.act_window" id="action_twiliosms_views_base">
+    <field name="name">SMStwilio_details</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">kanban,tree,form</field>
+    <field name="res_model">twiliosms.base</field>
+  </record>
+
+
+  <menuitem name="TwilioSMS_service" icon="terp-project" id="TwilioSMS" />
+  <menuitem name="twilio_sms" parent="TwilioSMS" id="twiliosms_child" />
+  <menuitem name="TWILIO_SMS" parent="twiliosms_child" id="twiliosms_child2"
+   action="action_twiliosms_views_base" />
+ </odoo>
